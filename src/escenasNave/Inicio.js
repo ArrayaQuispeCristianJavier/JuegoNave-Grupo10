@@ -32,21 +32,22 @@ class Inicio extends Phaser.Scene{
         key:'abajo',
         frames:[{key:'nave',frame:70}],
         frameRate:20
-       })
+       });
 
        //Animacion en reposo
        this.anims.create({
         key:'reposo',
         frames:[{key:'nave',frame:0}],
-        frameRate:20
-       })
+        frameRate:20,
+        
+       });
 
        //Animacion hacia arriba
        this.anims.create({
         key:'arriba',
         frames:[{key:'nave',frame:140}],
         frameRate:20
-       })
+       });
     }
 
     update(){
@@ -69,7 +70,10 @@ class Inicio extends Phaser.Scene{
         }else if (this.cursors.right.isDown) {
             this.nave.setVelocityX(300);
         }
-       
+         else {
+             this.nave.setVelocityX(0);
+             this.nave.setVelocityY(0);
+        }
         
     }
 }
