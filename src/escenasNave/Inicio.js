@@ -10,21 +10,21 @@ class Inicio extends Phaser.Scene{
     this.load.image('fondo', '../public/img/sky.png');
 
     //Jugador
-    this.load.spritesheet('nave','/public/img/nave.png',{frameWidth:70, frameHeight:62});
+    this.load.spritesheet('nave','../public/img/nave.png',{frameWidth:70, frameHeight:62});
     }
 
     create(){
         /*Cargar imagen de fondo*/
         this.add.image(400,300,'fondo');
         /*Hacer nave en sprite*/
-        this.player = this.physics.add.sprite(100,300,'nave');
+        this.nave = this.physics.add.sprite(100,300,'nave');
          /*Con esta linea se esta diciendo que va a utilizar el teclado para mover*/
         this.cursors = this.input.keyboard.createCursorKeys();
         
     
         /*colision del mundo*/
-        this.player.setCollideWorldBounds(true);
-        this.player.body.allowGravity=false;
+        this.nave.setCollideWorldBounds(true);
+        this.nave.body.allowGravity=false;
         /*Creacion de la animacion de la nave*/
 
         //Animacion hacia abajo
