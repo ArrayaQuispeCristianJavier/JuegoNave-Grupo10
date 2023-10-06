@@ -9,9 +9,10 @@ class Inicio extends Phaser.Scene {
         this.load.spritesheet('nave', '../public/img/nave.png', { frameWidth: 70, frameHeight: 62 });
        this.load.image('red','../public/img/red.png')
         this.load.image('enemy', '../public/img/enemy.png');
+        this.load.image('disparoNave','../public/img/shoot.png')
     }
 
-    create() {
+    create(){
         // Cargar la imagen de fondo
         this.add.image(400, 300, 'fondo');
 
@@ -58,19 +59,23 @@ class Inicio extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('nave', { start: 2, end: 2 }),
             frameRate: 20
         });
+        //Grupo de disparos
+        this.disparoNave = this.physics.add.group();
+        this.enemigo = this.physics.add.group();
+        this.physics.add.overlap(this.disparoNave,this.enemigo,this.eliminarEnemigo,null,this);
     }
 
-    crearEnemyAleatorio() {
-        for (let i = 0; i < 8
-            ; i++) {
+    crearEnemyAleatorio(){
+        for (let i = 0; i < 8; i++) {
             let enemyDistanciaVertical = Phaser.Math.Between(50, 650);
-            let enemy = this.physics.add.sprite(850,enemyDistanciaVertical, 'enemy');
+            let enemy = this.enemigo.create(850,enemyDistanciaVertical, 'enemy');
             enemy.checkWorldBounds = true;
             enemy.on('outOfBounds', () => {
                 enemy.destroy();
             });
             enemy.body.velocity.x = -200;
         }
+        
     }
 
     update() {
@@ -90,6 +95,22 @@ class Inicio extends Phaser.Scene {
             this.nave.setVelocityY(0);
             this.nave.anims.play('reposo', true);
         }
+    //Si se presiona la tecla ESPACIO se va a ejecutar la funcion disparar()
+    if (this.cursors.space.isDown) {
+     this.Disparo();
+    }
+    }
+    
+    
+    
+    Disparo(){
+    //grupo de objeto de disparo declarado en la linea 73 que sigue las coordenadas X Y de la nave y va a salir con la imagen
+    let disparo = this.disparoNave.create(this.nave.x, this.nave.y, 'disparoNave');
+    disparo.setVelocityX(2000);
+    }
+    eliminarEnemigo(disparoNave, enemy){
+     enemy.destroy();
+     console.log("Elimino al enemigo");   
     }
 }
 
