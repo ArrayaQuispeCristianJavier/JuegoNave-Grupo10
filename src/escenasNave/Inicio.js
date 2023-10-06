@@ -1,6 +1,8 @@
 class Inicio extends Phaser.Scene {
     constructor() {
         super("Escena1");
+        this.scoreText = "";
+        this.score = 0;
     }
 
     preload() {
@@ -63,6 +65,8 @@ class Inicio extends Phaser.Scene {
         this.disparoNave = this.physics.add.group();
         this.enemigo = this.physics.add.group();
         this.physics.add.overlap(this.disparoNave,this.enemigo,this.eliminarEnemigo,null,this);
+        //Para controlar el puntaje
+        this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '35px', fill: '#EEEEEE' });
     }
 
     crearEnemyAleatorio(){
@@ -99,6 +103,9 @@ class Inicio extends Phaser.Scene {
     if (this.cursors.space.isDown) {
      this.Disparo();
     }
+    /*if (this.score ==250) {
+     this.scene.start('final');
+    }*/
     }
     
     
@@ -110,6 +117,8 @@ class Inicio extends Phaser.Scene {
     }
     eliminarEnemigo(disparoNave, enemy){
      enemy.destroy();
+     this.score += 10;
+     this.scoreText.setText('Score: ' + this.score);
      console.log("Elimino al enemigo");   
     }
 }
