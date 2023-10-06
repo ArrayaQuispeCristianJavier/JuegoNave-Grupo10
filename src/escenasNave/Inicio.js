@@ -7,20 +7,37 @@ class Inicio extends Phaser.Scene{
     
     
     //Fondo
-    this.load.image('fondo', '../public/img/sky.png');
+    this.load.image('fondo', '../public/img/sky.jpeg');
+  
 
     //Jugador
     this.load.spritesheet('nave','../public/img/nave.png',{frameWidth:70, frameHeight:62});
+
+    //Particulas
+    this.load.image('red', '../public/img/red.png');
+
     }
 
     create(){
         /*Cargar imagen de fondo*/
         this.add.image(400,300,'fondo');
+       
+        /*agregar particulas que sigan a la nave*/
+        let particles= this.add.particles(-10,0,'red',{
+            speed:100,
+            angle: {min:150, max:210},
+            scale: {start:1, end:0},
+            blendMode: 'ADD'
+        });
+
         /*Hacer nave en sprite*/
         this.nave = this.physics.add.sprite(100,300,'nave');
          /*Con esta linea se esta diciendo que va a utilizar el teclado para mover*/
         this.cursors = this.input.keyboard.createCursorKeys();
         
+       
+      //hace que las particulas sigan a la nave
+        particles.startFollow(this.nave);
     
         /*colision del mundo*/
         this.nave.setCollideWorldBounds(true);
@@ -29,24 +46,23 @@ class Inicio extends Phaser.Scene{
 
         //Animacion hacia abajo
        this.anims.create({
-        key:'abajo',
-        frames:[{key:'nave',frame:70}],
-        frameRate:20
+         key:'abajo',
+         frames:[{key:'nave',frame:1}],
+         frameRate:20
        });
 
        //Animacion en reposo
        this.anims.create({
-        key:'reposo',
-        frames:[{key:'nave',frame:0}],
-        frameRate:20,
-        
+         key:'reposo',
+         frames:[{key:'nave',frame:0}],
+         frameRate:20
        });
 
        //Animacion hacia arriba
        this.anims.create({
-        key:'arriba',
-        frames:[{key:'nave',frame:140}],
-        frameRate:20
+         key:'arriba',
+         frames:[{key:'nave',frame:2}],
+         frameRate:20
        });
     }
 
@@ -54,14 +70,14 @@ class Inicio extends Phaser.Scene{
         /*Crear botones para el movimiento de la nave*/
         //tecla hacia arriba
         if (this.cursors.up.isDown) {
-         this.nave.setVelocityY(-200);
-         this.nave.anims.play('arriba', true)
+         this.nave.setVelocityY(-250);
+         this.nave.anims.play('arriba', true);
         }
 
         //tecla hacia abajo
         else if (this.cursors.down.isDown) {
-            this.nave.setVelocityY(200);
-            this.nave.anims.play('abajo', true)
+            this.nave.setVelocityY(250);
+            this.nave.anims.play('abajo', true);
         }
         //retroceder
         else if(this.cursors.left.isDown){
@@ -69,10 +85,12 @@ class Inicio extends Phaser.Scene{
             //avanzar
         }else if (this.cursors.right.isDown) {
             this.nave.setVelocityX(300);
+           //quedarse quieto
         }
          else {
              this.nave.setVelocityX(0);
              this.nave.setVelocityY(0);
+             this.nave.anims.play('reposo', true);
         }
         
     }
