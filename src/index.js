@@ -2,8 +2,8 @@ import Inicio from "./escenasNave/Inicio.js";
 
 let config = {
     type: Phaser.AUTO,
-    width: 800,//ancho
-    height: 600,//alto
+    width: 1000,//ancho
+    height: 660,//alto
     physics:
     {
      default:'arcade',
