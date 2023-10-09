@@ -1,4 +1,5 @@
 import Inicio from "./escenasNave/Inicio.js";
+import Escena2 from "./escenasNave/Escena2.js";
 
 let config = {
     type: Phaser.AUTO,
@@ -13,7 +14,7 @@ let config = {
       debug:false
       }
     },
-    scene:[Inicio]//Vector donde se guardara las escenas, victoria y derrota
+    scene:[Inicio, Escena2]//Vector donde se guardara las escenas, victoria y derrota
 };
 let game = new Phaser.Game(config);
 
