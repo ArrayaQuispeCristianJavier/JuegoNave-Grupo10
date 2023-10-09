@@ -13,7 +13,7 @@ let config = {
       debug:false
       }
     },
-    scene:[Inicio]//Vector donde se guardara las escenas, victoria,derrota y escena
+    scene:[Inicio]//Vector donde se guardara las escenas, victoria y derrota
 };
 let game = new Phaser.Game(config);
 
