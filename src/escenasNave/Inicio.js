@@ -111,9 +111,11 @@ class Inicio extends Phaser.Scene {
         this.disparoEnemy = this.physics.add.group();
 
         this.enemigo = this.physics.add.group();
-
+        
+        /*Colision entre los disparo del enemigo y la nave */
         this.physics.add.overlap(this.disparoNave,this.enemigo,this.eliminarEnemigo,null,this);
-
+                
+        this.physics.add.overlap(this.nave,this.disparoEnemy,this.danioEnemigo,null,this);
         //Para controlar el puntaje
         this.scoreText = this.add.text(16, 16, 'Puntaje: 0', { fontSize: '35px', fill: '#EEEEEE' });
 
@@ -140,7 +142,13 @@ class Inicio extends Phaser.Scene {
             });
 
             enemy.body.velocity.x = -200;
-
+            
+            
+            let disparoEnemigo = this.disparoEnemy.create(enemy.x,enemy.y, 'disparoEnemy');
+            disparoEnemigo.setVelocityX(-600);
+            disparoEnemigo.body.allowGravity=false;
+            console.log("Haz eliminado un enemigo");
+            
         }
         
     }
@@ -189,14 +197,14 @@ class Inicio extends Phaser.Scene {
     /*------------------------------------------------------*/
     
     
-    /*Si el jugador supera el puntaje 250 pasa a la escena final
+    //Si el jugador supera el puntaje 250 pasa a la escena final
     if(this.score ==250) {
      this.scene.start('final');
-    }*/
-    /*realizar un sistema de colision entre disparo del enemigo con nave y restar 20 de vida
+    }
+    //realizar un sistema de colision entre disparo del enemigo con nave y restar 20 de vida
     if(this.vida ==0){
      this.scene.start('Derrota');
-    }*/
+    }
 
 
     }
@@ -214,11 +222,15 @@ class Inicio extends Phaser.Scene {
      this.scoreText.setText('Score: ' + this.score);
      console.log("Elimino al enemigo");   
     }
-
-    DisparoEnemigos(enemigo){
-    let disparoEnemigo = this.disparoEnemy.create(this.enemigo.x, this.enemigo.y,'disparoEnemy');
-    this.disparoEnemigo.setVelocityX(-2000);
+    danioEnemigo(nave, disparoEnemy){
+     
+     this.vida = this.vida - 20;
+     this.vidaText.setText('Vida: ' + this.vida);
+     disparoEnemy.destroy();
+     
     }
+    
+    
     /*-------------------------------*/
 }
 
