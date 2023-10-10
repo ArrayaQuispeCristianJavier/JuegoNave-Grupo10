@@ -15,7 +15,7 @@ class Escena2 extends Phaser.Scene{
         preload() {
 
             // Cargar las imágenes de fondo, nave y enemigos
-            this.load.image('fondo','../public/img/Escena2.png');
+            this.load.image('fondo2','../public/img/Escena2.jpg');
     
             this.load.spritesheet('nave', '../public/img/nave.png', { frameWidth: 70, frameHeight: 62 });
     
@@ -32,7 +32,7 @@ class Escena2 extends Phaser.Scene{
 
         // Cargar la imagen de fondo
 
-        this.add.image(400, 300, 'fondo');
+        this.add.image(400, 300, 'fondo2');
 
         // Agregar partículas que sigan a la nave
 

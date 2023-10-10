@@ -5,13 +5,13 @@ class Derrota extends Phaser.Scene {
     }
     preload(){
         this.load.image('FondoDerrota', '../public/img/FondoDerrota.jpg')    
-        this.load.image('GameOver', '../public/img/game_over_PNG42.png')
+        this.load.image('GameOver', '../public/img/GameOver.png')
         
     }
 
     create(){
         this.add.image(400,300, 'FondoDerrota') 
-        this.add.image(400,300,'GameOver')
+        this.add.image(200,550,'GameOver')
         
      
 
