@@ -1,35 +1,40 @@
 class Escena2 extends Phaser.Scene{
-     constructor() {
+    constructor(){
     
             super("Escena2");
     
             this.scoreText = "";
     
-            this.score = 250;
+            
     
             this.vidaText="";
     
+          
+
+            this.vidaJefeText = "";
+            this.vidaJefe = 100;
             this.vida= 100;
     
-        }
-        preload() {
+    }
+    preload() {
 
-            // Cargar las imágenes de fondo, nave y enemigos
-            this.load.image('fondo2','../public/img/Escena2.jpg');
+    // Cargar las imágenes de fondo, nave y enemigos
+    this.load.image('fondo2','../public/img/Escena2.jpg');
     
-            this.load.spritesheet('nave', '../public/img/nave.png', { frameWidth: 70, frameHeight: 62 });
+    this.load.spritesheet('nave', '../public/img/nave.png', { frameWidth: 70, frameHeight: 62 });
     
-           this.load.image('red','../public/img/red.png');
+    this.load.image('red','../public/img/red.png');
     
-            this.load.image('enemy', '../public/img/enemy.png');
+    this.load.image('enemigoJefe', '../public/img/enemy.png');
     
-            this.load.image('disparoNave','../public/img/shoot.png');
+    this.load.image('disparoNave','../public/img/shoot.png');
     
-            this.load.image('disparoEnemy','../public/img/shootEnemy.png');
+    this.load.image('disparoEnemy','../public/img/shootEnemy.png');
     
-        }
-        create(){
+    }
+    create(){
 
+        
         // Cargar la imagen de fondo
 
         this.add.image(400, 300, 'fondo2');
@@ -55,18 +60,12 @@ class Escena2 extends Phaser.Scene{
         // Hace que las partículas sigan a la nave
         particles.startFollow(this.nave);
 
-        // Crear enemigos aleatorios
-        this.time.addEvent({
+        /*Creacion del jefe*/
+        this.enemigoJefe = this.physics.add.sprite(600,300,'enemigoJefe');
+        this.enemigoJefe.body.allowGravity = false
 
-            delay: 3000,
+        
 
-            callback: this.crearEnemyAleatorio,
-
-            callbackScope: this,
-
-            repeat: -1
-
-        });
 
         // Colisión con el mundo para la nave
 
@@ -107,17 +106,119 @@ class Escena2 extends Phaser.Scene{
         //grupo de disparo de nave enemigo
         this.disparoEnemy = this.physics.add.group();
 
-        this.enemigo = this.physics.add.group();
-
-        this.physics.add.overlap(this.disparoNave,this.enemigo,this.eliminarEnemigo,null,this);
-
+      
+        //Colision entre los disparos del jefe a nuestra nave
+        this.physics.add.overlap(this.nave,this.disparoEnemy,this.danioNave,null,this);
+        //Colision entre nuestro disparo hacia la nave del jefe
+        this.physics.add.overlap(this.enemigoJefe,this.disparoNave,this.danioJefe,null,this);
+      
+        this.disparosDelJefe();
+                
+       
         //Para controlar el puntaje
-        this.scoreText = this.add.text(16, 16, 'Puntaje: 0', { fontSize: '35px', fill: '#EEEEEE' });
+        this.vidaJefeText = this.add.text(16, 16, 'Vida del jefe:100', { fontSize: '35px', fill: '#EEEEEE' });
 
         //Para controlar la vida de la nave
-        this.vidaText = this.add.text(300,16,'Vida:100',{fontSize:'35px', fill:'#EEEEEE'});
+        this.vidaText = this.add.text(16,50,'Vida:100',{fontSize:'35px', fill:'#EEEEEE'});
     }
+    disparosDelJefe(){
+        this.time.addEvent({
+            delay: 1000,
+            callback: this.realizarDisparoJefe,
+            callbackScope:this,
+            loop:true
+        });
+    }
+    realizarDisparoJefe(){
+        let disparoJefe = this.disparoEnemy.create(this.enemigoJefe.x,this.enemigoJefe.y,'disparoEnemy');
+        let aleatorios = Math.floor(10*Phaser.Math.FloatBetween(0.1,0.3));
+     switch (aleatorios) {
+        case 1:
+        disparoJefe.setVelocityX(-200);
+         break;
+        case 2:
+        disparoJefe.setVelocityX(-200);
+        disparoJefe.setVelocityY(-50);
+         break;
+         case 3:
+        disparoJefe.setVelocityX(-200);
+        disparoJefe.setVelocityY(50);
+         break;
+     }
+       
 
+    }
+    update(){
+        /*-------Controles de la nave--------*/
+        // Lógica de movimiento de la nave
+        if (this.cursors.up.isDown) {
 
+            this.nave.setVelocityY(-250);
+
+            this.nave.anims.play('arriba', true);
+
+        } else if (this.cursors.down.isDown) {
+            
+            this.nave.setVelocityY(250);
+            
+            this.nave.anims.play('abajo', true);
+
+        } else if (this.cursors.left.isDown) {
+           
+            this.nave.setVelocityX(-300);
+
+        } else if (this.cursors.right.isDown) {
+            
+            this.nave.setVelocityX(300);
+
+        } else {
+
+            this.nave.setVelocityX(0);
+            
+            this.nave.setVelocityY(0);
+            
+            this.nave.anims.play('reposo', true);
+        
         }
+       //Si se presiona la tecla ESPACIO se va a ejecutar la funcion disparar()
+      if(this.cursors.space.isDown) {
+
+       this.Disparo();
+
+      }
+      
+      if(this.vida <= 0){
+        this.scene.start('Derrota');
+        console.log("Se cambio a la escena derrota");
+        }
+
+      }
+
+
+    Disparo(){
+        //grupo de objeto de disparo declarado en la linea 73 que sigue las coordenadas X Y de la nave y va a salir con la imagen
+        let disparo = this.disparoNave.create(this.nave.x, this.nave.y, 'disparoNave');
+        disparo.setVelocityX(2000);
+        }
+
+    danioJefe(jefe,disparoJefe){
+     
+    this.vidaJefe -=20;
+     this.vidaJefeText.setText('Vida del jefe: ' + this.vidaJefe );
+     disparoJefe.destroy();
+     if (this.vidaJefe == 0) {
+        
+        this.enemigoJefe.destroy();
+        //Agregar la escena de victoria
+     }
+    
+    }
+    /*Cuando el jefe nos da un disparo ejecuta esta accion*/
+    danioNave(nave,disparoJefe){
+        this.vida -=60;
+        this.vidaText.setText('Vida: ' + this.vida);
+        disparoJefe.destroy();
+        
+    }
+}
 export default Escena2;
