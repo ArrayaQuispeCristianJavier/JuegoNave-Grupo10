@@ -6,7 +6,7 @@ class Menu extends Phaser.Scene{
     preload(){
     this.load.image('fondoMenu','../public/img/fondoMenu.jpg');
    
-    this.load.image('boton','../public/img/botonNave.jpg');
+    this.load.image('boton','../public/img/botonNave.png');
     }
     create(){
      this.add.image(400,300,'fondoMenu').setScale(2.0);
