@@ -61,7 +61,7 @@ class Escena2 extends Phaser.Scene{
         particles.startFollow(this.nave);
 
         /*Creacion del jefe*/
-        this.enemigoJefe = this.physics.add.sprite(600,300,'enemigoJefe');
+        this.enemigoJefe = this.physics.add.sprite(900,300,'enemigoJefe');
         this.enemigoJefe.body.allowGravity = false
 
         
@@ -123,27 +123,39 @@ class Escena2 extends Phaser.Scene{
     }
     disparosDelJefe(){
         this.time.addEvent({
-            delay: 1000,
+            delay: 500,
             callback: this.realizarDisparoJefe,
             callbackScope:this,
             loop:true
         });
     }
     realizarDisparoJefe(){
-        let disparoJefe = this.disparoEnemy.create(this.enemigoJefe.x,this.enemigoJefe.y,'disparoEnemy');
+        
         let aleatorios = Math.floor(10*Phaser.Math.FloatBetween(0.1,0.3));
      switch (aleatorios) {
         case 1:
-        disparoJefe.setVelocityX(-200);
-         break;
+            // Nivel de dificultad 1
+            for (let i = 0; i < 5; i++) {
+                let disparoJefe = this.disparoEnemy.create(this.enemigoJefe.x, this.enemigoJefe.y, 'disparoEnemy');
+                disparoJefe.setVelocityX(-200);
+            }
+            break;
         case 2:
-        disparoJefe.setVelocityX(-200);
-        disparoJefe.setVelocityY(-50);
-         break;
-         case 3:
-        disparoJefe.setVelocityX(-200);
-        disparoJefe.setVelocityY(50);
-         break;
+            // Nivel de dificultad 2
+            for (let i = 0; i < 5; i++) {
+                let disparoJefe = this.disparoEnemy.create(this.enemigoJefe.x, this.enemigoJefe.y, 'disparoEnemy');
+                disparoJefe.setVelocityX(-200);
+                disparoJefe.setVelocityY(Phaser.Math.Between(-100, 100));
+            }
+            break;
+        case 3:
+            // Nivel de dificultad 3
+            for (let i = 0; i < 5; i++) {
+                let disparoJefe = this.disparoEnemy.create(this.enemigoJefe.x, this.enemigoJefe.y, 'disparoEnemy');
+                disparoJefe.setVelocityX(-200);
+                disparoJefe.setVelocityY(Phaser.Math.Between(-100, 100));
+            }
+            break;
      }
        
 
@@ -218,7 +230,7 @@ class Escena2 extends Phaser.Scene{
     }
     /*Cuando el jefe nos da un disparo ejecuta esta accion*/
     danioNave(nave,disparoJefe){
-        this.vida -=1000;
+        this.vida -=60;
         this.vidaText.setText('Vida: ' + this.vida);
         disparoJefe.destroy();
         
