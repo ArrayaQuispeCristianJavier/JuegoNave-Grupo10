@@ -1,4 +1,4 @@
-/*class Victoria extends Phaser.Scene {
+class Victoria extends Phaser.Scene {
     constructor() {
 
         super('Victoria');
@@ -11,10 +11,10 @@
 
     create(){
         this.add.image(400,300, 'FondoVictoria') 
-        this.add.image(400,300,'YouWin')
+        this.add.image(500,300,'YouWin')
         
      
 
     }
 }
- export default Derrota;*/
+ export default Victoria;

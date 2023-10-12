@@ -186,7 +186,10 @@ class Escena2 extends Phaser.Scene{
        this.Disparo();
 
       }
-      
+      if (this.vidaJefe==0) {
+        this.scene.start('Victoria');
+        console.log("Juego Terminado");
+      }
       if(this.vida <= 0){
         this.scene.start('Derrota');
         console.log("Se cambio a la escena derrota");
@@ -215,7 +218,7 @@ class Escena2 extends Phaser.Scene{
     }
     /*Cuando el jefe nos da un disparo ejecuta esta accion*/
     danioNave(nave,disparoJefe){
-        this.vida -=60;
+        this.vida -=1000;
         this.vidaText.setText('Vida: ' + this.vida);
         disparoJefe.destroy();
         
