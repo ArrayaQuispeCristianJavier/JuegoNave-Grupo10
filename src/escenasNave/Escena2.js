@@ -14,7 +14,6 @@ class Escena2 extends Phaser.Scene{
             this.vidaJefeText = "";
             this.vidaJefe = 100;
             this.vida= 100;
-    
     }
     preload() {
 
@@ -120,6 +119,7 @@ class Escena2 extends Phaser.Scene{
 
         //Para controlar la vida de la nave
         this.vidaText = this.add.text(16,50,'Vida:100',{fontSize:'35px', fill:'#EEEEEE'});
+    this.reload = true;
     }
     disparosDelJefe(){
         this.time.addEvent({
@@ -157,8 +157,7 @@ class Escena2 extends Phaser.Scene{
             }
             break;
      }
-       
-
+      
     }
     update(){
         /*-------Controles de la nave--------*/
@@ -193,11 +192,13 @@ class Escena2 extends Phaser.Scene{
         
         }
        //Si se presiona la tecla ESPACIO se va a ejecutar la funcion disparar()
-      if(this.cursors.space.isDown) {
+       if(this.cursors.space.isDown && this.reload) {
 
-       this.Disparo();
-
-      }
+        this.Disparo();
+        
+ 
+       }
+      
       if (this.vidaJefe==0) {
         this.scene.start('Victoria');
         console.log("Juego Terminado");
@@ -209,8 +210,8 @@ class Escena2 extends Phaser.Scene{
 
       }
 
-
     Disparo(){
+        this.recarga();
         //grupo de objeto de disparo declarado en la linea 73 que sigue las coordenadas X Y de la nave y va a salir con la imagen
         let disparo = this.disparoNave.create(this.nave.x, this.nave.y, 'disparoNave');
         disparo.setVelocityX(2000);
@@ -234,6 +235,19 @@ class Escena2 extends Phaser.Scene{
         this.vidaText.setText('Vida: ' + this.vida);
         disparoJefe.destroy();
         
+    }
+    recarga(){
+        this.reload = false;
+        if (!this.addreload) {
+        this.time.addEvent({
+            delay: 700,
+            callback: () => {
+                this.reload = true;
+            },
+            callbackScope: this,
+            repeat:-1
+        })
+        }
     }
 }
 export default Escena2;

@@ -11,7 +11,8 @@ class Inicio extends Phaser.Scene {
         this.vidaText="";
 
         this.vida= 100;
-
+       
+        
     }
 
     preload() {
@@ -110,6 +111,8 @@ class Inicio extends Phaser.Scene {
         //grupo de disparo de nave enemigo
         this.disparoEnemy = this.physics.add.group();
 
+        
+
         this.enemigo = this.physics.add.group();
         
         /*Colision entre los disparo del enemigo y la nave */
@@ -121,6 +124,9 @@ class Inicio extends Phaser.Scene {
 
         //Para controlar la vida de la nave
         this.vidaText = this.add.text(300,16,'Vida:100',{fontSize:'35px', fill:'#EEEEEE'});
+    
+        this.reload = true;
+    
     }
 
     crearEnemyAleatorio(){
@@ -189,9 +195,10 @@ class Inicio extends Phaser.Scene {
         
         }
     //Si se presiona la tecla ESPACIO se va a ejecutar la funcion disparar()
-    if(this.cursors.space.isDown) {
+    if(this.cursors.space.isDown && this.reload ) {
 
      this.Disparo();
+     
 
     }
     /*------------------------------------------------------*/
@@ -213,6 +220,9 @@ class Inicio extends Phaser.Scene {
     /*---------Metodos--------------*/
     Disparo(){
     //grupo de objeto de disparo declarado en la linea 73 que sigue las coordenadas X Y de la nave y va a salir con la imagen
+    
+    this.recarga();
+    
     let disparo = this.disparoNave.create(this.nave.x, this.nave.y, 'disparoNave');
     disparo.setVelocityX(2000);
     }
@@ -229,7 +239,19 @@ class Inicio extends Phaser.Scene {
      disparoEnemy.destroy();
      
     }
-    
+    recarga(){
+        this.reload = false;
+        if (!this.addreload) {
+        this.time.addEvent({
+            delay: 700,
+            callback: () => {
+                this.reload = true;
+            },
+            callbackScope: this,
+            repeat:-1
+        })
+        }
+    }
     
     /*-------------------------------*/
 }
