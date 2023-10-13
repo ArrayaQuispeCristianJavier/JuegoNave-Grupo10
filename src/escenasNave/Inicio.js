@@ -205,7 +205,7 @@ class Inicio extends Phaser.Scene {
     
     
     //Si el jugador supera el puntaje 250 pasa a la escena final
-    if(this.score ==10) {
+    if(this.score ==250) {
      this.scene.start('Escena2');
     }
     //realizar un sistema de colision entre disparo del enemigo con nave y restar 20 de vida

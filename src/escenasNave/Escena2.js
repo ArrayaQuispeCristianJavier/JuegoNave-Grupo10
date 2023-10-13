@@ -24,7 +24,7 @@ class Escena2 extends Phaser.Scene{
     
     this.load.image('red','../public/img/red.png');
     
-    this.load.image('enemigoJefe', '../public/img/enemy.png');
+    this.load.image('enemigoJefe', '../public/img/Jefe.png');
     
     this.load.image('disparoNave','../public/img/shoot.png');
     
@@ -123,7 +123,7 @@ class Escena2 extends Phaser.Scene{
     }
     disparosDelJefe(){
         this.time.addEvent({
-            delay: 500,
+            delay: 800,
             callback: this.realizarDisparoJefe,
             callbackScope:this,
             loop:true
