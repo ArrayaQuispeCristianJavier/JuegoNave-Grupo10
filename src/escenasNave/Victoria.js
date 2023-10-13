@@ -11,7 +11,7 @@ class Victoria extends Phaser.Scene {
 
     create(){
         this.add.image(400,300, 'FondoVictoria') 
-        this.add.image(500,300,'YouWin')
+        this.add.image(200,550,'YouWin')
         
      
 

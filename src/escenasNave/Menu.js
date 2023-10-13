@@ -6,10 +6,10 @@ class Menu extends Phaser.Scene{
     preload(){
     this.load.image('fondoMenu','../public/img/fondoMenu.jpg');
    
-    this.load.image('boton','../public/img/botonNave.png');
+    this.load.image('boton','../public/img/botonInicio.png');
     }
     create(){
-     this.add.image(400,300,'fondoMenu').setScale(2.0);
+     this.add.image(400,300,'fondoMenu')
      this.startButton = this.add.image(475,350,'boton').setInteractive().setScale(0.4);
      
     //Funcion que cambia de pantalla a la escena 1
